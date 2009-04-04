@@ -61,7 +61,7 @@ public class ModRothErev implements TradingStyle
             //actionDomain[i] = ((float)i) / (domainSize - 1);
             actionDomain[i] = i*( (adp.getUpperBound() - adp.getLowerBound()) )/ (domainSize - 1) + adp.getLowerBound();
             actionDomain[i] = actionDomain[i] / 100; // the action domain is a percentage, so it must be converted from 75% format to 0.75 format
-            probability[i] =  1/domainSize;
+            probability[i] =  1/domainSize;//TODO: is this needed?
             propensity[i] = INITIAL_PROPENSITY;
             accProp[i] = ((float)i) / domainSize;
         }
@@ -204,7 +204,7 @@ public class ModRothErev implements TradingStyle
                 //return reservationValue + ( (maxSellerValue - reservationValue)* pickedAction );
                 // return (float) reservationValue + (reservationValue * (myAdp.getLowerBound() 
                 //+ pickAction() * (myAdp.getUpperBound() - myAdp.getLowerBound() ))) /100;
-                return pickAction() * reservationValue + reservationValue; 
+                return pickedAction * reservationValue + reservationValue; 
             }
             else
                 throw new RuntimeException( " pickedAction = " + pickedAction +" which is not within the interval ( 0, 1 )");
