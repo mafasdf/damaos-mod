@@ -16,7 +16,7 @@ public class ModRothErev implements TradingStyle
         private float INITIAL_PROPENSITY;      // The propensity to initially choose each reservationValue
         public float epsilon = (float) -1;   // ok not static          // Epsilon reservationValue 
         public float previousReward = -1;                       // The reservationValue of the reward of the previous trade
-        public float fi = (float) -1;                          // Fi, the recency parameter in the Roth-Evev algorithm
+        public float phi = (float) -1;                          // Phi, the recency parameter in the Roth-Evev algorithm
         public int indexOfLastAction = -1;                      // The index of the action that was most recently chosen
         public float actionDomain[];                            // The action domain, which ranges from 0.0 to 1.0, in increments of 0.1 
         
@@ -45,7 +45,7 @@ public class ModRothErev implements TradingStyle
         if( null != mrep )
         {
             epsilon = mrep.getExperimentation();
-            fi = mrep.getRecency();
+            phi = mrep.getRecency();
             INITIAL_PROPENSITY = mrep.getInitProp();
         }
         
@@ -85,14 +85,14 @@ public class ModRothErev implements TradingStyle
                 // can be increased
                 if( indexOfLastAction == i )
                 {
-                    propensity[i] = ( (1 - fi) * propensity[i] ) + ( previousReward*(1-epsilon) );
+                    propensity[i] = ( (1 - phi) * propensity[i] ) + ( previousReward*(1-epsilon) );
                 }
                 
                 // All other actions have their propensities updated as well to make it less likely that the algorithm will get
                 // stuck choosing a single action
                 else
                 {
-                    propensity[i] = ( (1 - fi) * propensity[i] ) + ( (propensity[i]*epsilon)/(domainSize-1) );
+                    propensity[i] = ( (1 - phi) * propensity[i] ) + ( (propensity[i]*epsilon)/(domainSize-1) );
                 }
             }       
         } 
