@@ -59,8 +59,8 @@ public class DiscPriceKDoubleAuction implements MarketStyle {
             askPrice = 0;
             
             // Pick a buyer and seller at random
-            buyerIndex = rand.getRangedInt( 0, buyers.length -1 );
-            sellerIndex = rand.getRangedInt( 0, sellers.length -1 );
+            buyerIndex = rand.getRangedInt( 0, buyers.length );
+            sellerIndex = rand.getRangedInt( 0, sellers.length );
 
             // buyer forms a bid price and is told which seller it is attempting to trade with
             bidPrice = buyers[buyerIndex].formBidPrice( sellers[sellerIndex].myID ); 
