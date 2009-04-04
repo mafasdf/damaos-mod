@@ -34,9 +34,9 @@ public class RandomNumbers
     }
     
     // returns a value between low and high, 
-    // specifically [low, high]
+    // specifically [low, high)
     public int getRangedInt( int low, int high )
     {
-        return ranmar.choose( low, high );
+        return ranmar.choose( low, high);
     }
 }
