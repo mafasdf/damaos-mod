@@ -139,6 +139,7 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
         randomSeedText = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         numOfMarkets = new javax.swing.JTextField();
+        numRounds = new javax.swing.JTextField();
         PanelDiscPriceKDoubleAuction = new javax.swing.JPanel();
         maxTradesPerRound = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -596,7 +597,7 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Number of Batched Runs", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12)));
         jPanel9.setToolTipText("NumMarkets");
         numOfMarkets.setText("100");
-
+//TODO: 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -604,12 +605,14 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(numOfMarkets, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(numRounds, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(100, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addComponent(numOfMarkets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(numRounds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1444,6 +1447,8 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
         display[3].setHigh( Float.valueOf( smaUpperText.getText() ) );
         
         simSpecs.addMarketSpecs( new MarketSpecs( randSeed, myMarketType, numMarkets, myOutputFileName, maxTrades, kParameter, display ) );
+        
+        simSpecs.setNumRounds( Integer.valueOf(numRounds.getText()));
     }
     
     public void updateDisplayValues()
@@ -1661,6 +1666,7 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
     private javax.swing.JTextField lowerBoundText;
     private javax.swing.JTextField maxTradesPerRound;
     private javax.swing.JTextField numOfMarkets;
+    private javax.swing.JTextField numRounds;
     private javax.swing.JTextField randomSeedText;
     private javax.swing.JTextField smaBinsText;
     private javax.swing.JTextField smaLowerText;

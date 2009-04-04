@@ -19,6 +19,7 @@ public class SimSpecs {
     private MarketSpecs marketSpecs;
     
     private Integer[] tradingMarketSeeds;
+	private int numRounds;
     
     /** Creates a new instance of SimSpecs */
     public SimSpecs() 
@@ -26,6 +27,7 @@ public class SimSpecs {
         agentSpecList = new ArrayList();
         marketSpecs = null;
         tradingMarketSeeds = null;
+        numRounds = -1;
     }
 
     public void addAgentSpecs( ArrayList<AgentSpecs> agentList ) 
@@ -96,5 +98,15 @@ public class SimSpecs {
     {
         return tradingMarketSeeds[index];
     }
+
+	public int getNumRounds()
+	{
+		return numRounds;
+	}
+	
+	public void setNumRounds(int numRounds)
+	{
+		this.numRounds = numRounds;
+	}
     
 }
