@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
+import javax.swing.LayoutStyle;
 
 import uchicago.src.sim.engine.SimInit;
 /**
@@ -140,6 +142,7 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         numOfMarkets = new javax.swing.JTextField();
         numRounds = new javax.swing.JTextField();
+        numRoundsLabel = new javax.swing.JLabel();
         PanelDiscPriceKDoubleAuction = new javax.swing.JPanel();
         maxTradesPerRound = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -597,23 +600,34 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Number of Batched Runs", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12)));
         jPanel9.setToolTipText("NumMarkets");
         numOfMarkets.setText("100");
-//TODO: 
+       	numRoundsLabel.setText("Number of Rounds");
+       	numRounds.setText("150");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(numOfMarkets, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(numRounds, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
-        );
+        	jPanel9Layout.createParallelGroup()
+        	.addGroup(GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
+        	    .addComponent(numRoundsLabel, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+        	    .addContainerGap(54, Short.MAX_VALUE))
+        	.addGroup(jPanel9Layout.createSequentialGroup()
+        	    .addPreferredGap(numRoundsLabel, numOfMarkets, LayoutStyle.ComponentPlacement.INDENT)
+        	    .addGroup(jPanel9Layout.createParallelGroup()
+        	        .addGroup(GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
+        	            .addComponent(numOfMarkets, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+        	            .addGap(0, 11, Short.MAX_VALUE))
+        	        .addGroup(jPanel9Layout.createSequentialGroup()
+        	            .addComponent(numRounds, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+        	            .addGap(0, 0, Short.MAX_VALUE)))
+        	    .addContainerGap(89, 89)));
         jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(numOfMarkets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(numRounds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jPanel9Layout.createSequentialGroup()
+	        	.addComponent(numOfMarkets, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+	        	.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, GroupLayout.PREFERRED_SIZE)
+	        	.addComponent(numRoundsLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+	        	.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, GroupLayout.PREFERRED_SIZE)
+	        	.addComponent(numRounds, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+	        	.addGap(0, 6, Short.MAX_VALUE)
         );
 
         PanelDiscPriceKDoubleAuction.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Discriminatory-Price K-double Auction", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12)));
@@ -746,55 +760,51 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelDiscPriceKDoubleAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelUniformPriceAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AddButton, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
-                            .addComponent(RemoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(82, 82, 82)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PanelUniformPriceAuction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(PanelDiscPriceKDoubleAuction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(16, 16, 16)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(RemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        	jPanel1Layout.createSequentialGroup()
+        	.addComponent(PanelDiscPriceKDoubleAuction, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+        	.addGap(14)
+        	.addGroup(jPanel1Layout.createParallelGroup()
+        	    .addGroup(GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        	        .addGroup(jPanel1Layout.createParallelGroup()
+        	            .addComponent(AddButton, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+        	            .addComponent(RemoveButton, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE))
+        	        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+        	        .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, 1357, GroupLayout.PREFERRED_SIZE)
+        	        .addGap(0, 82, Short.MAX_VALUE))
+        	    .addGroup(GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        	        .addGroup(jPanel1Layout.createParallelGroup()
+        	            .addComponent(jPanel5, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+        	            .addComponent(jPanel9, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
+        	        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+        	        .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, 248, GroupLayout.PREFERRED_SIZE)
+        	        .addComponent(PanelUniformPriceAuction, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+        	        .addGap(0, 1065, Short.MAX_VALUE))
+        	    .addComponent(jPanel3, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 1628, GroupLayout.PREFERRED_SIZE)));
+                jPanel1Layout.setVerticalGroup(jPanel1Layout.createSequentialGroup()
+        	.addComponent(PanelDiscPriceKDoubleAuction, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+        	.addGap(14)
+        	.addGroup(jPanel1Layout.createParallelGroup()
+        	    .addGroup(GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        	        .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+        	        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+        	        .addComponent(jPanel9, 0, 96, Short.MAX_VALUE))
+        	    .addGroup(GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        	        .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+        	        .addGap(0, 26, Short.MAX_VALUE))
+        	    .addGroup(GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        	        .addComponent(PanelUniformPriceAuction, 0, 138, Short.MAX_VALUE)
+        	        .addGap(10)))
+        	.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+        	.addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
+        	.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+        	.addGroup(jPanel1Layout.createParallelGroup()
+        	    .addGroup(GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        	        .addComponent(AddButton, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
+        	        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+        	        .addComponent(RemoveButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+        	    .addComponent(jPanel4, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+        	.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+       	);
         jTabbedPane1.addTab("Market&AgentOptions", jPanel1);
         jPanel1.getAccessibleContext().setAccessibleName("Auction");
 
@@ -1667,6 +1677,7 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
     private javax.swing.JTextField maxTradesPerRound;
     private javax.swing.JTextField numOfMarkets;
     private javax.swing.JTextField numRounds;
+    private javax.swing.JLabel numRoundsLabel;
     private javax.swing.JTextField randomSeedText;
     private javax.swing.JTextField smaBinsText;
     private javax.swing.JTextField smaLowerText;
