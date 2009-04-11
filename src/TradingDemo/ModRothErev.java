@@ -199,15 +199,10 @@ public class ModRothErev implements TradingStyle
         
         if( type == AgentType.SELLER )
         {
-            if(  pickedAction <= 1.0 && pickedAction >= 0 )
-            {
-                //return reservationValue + ( (maxSellerValue - reservationValue)* pickedAction );
-                // return (float) reservationValue + (reservationValue * (myAdp.getLowerBound() 
-                //+ pickAction() * (myAdp.getUpperBound() - myAdp.getLowerBound() ))) /100;
-                return pickedAction * reservationValue + reservationValue; 
-            }
-            else
-                throw new RuntimeException( " pickedAction = " + pickedAction +" which is not within the interval ( 0, 1 )");
+        	//return reservationValue + ( (maxSellerValue - reservationValue)* pickedAction );
+            // return (float) reservationValue + (reservationValue * (myAdp.getLowerBound() 
+            //+ pickAction() * (myAdp.getUpperBound() - myAdp.getLowerBound() ))) /100;
+            return pickedAction * reservationValue + reservationValue; 
         }
         else
         {
