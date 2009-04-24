@@ -20,6 +20,8 @@ public class SimSpecs {
     
     private Integer[] tradingMarketSeeds;
 	private int numRounds;
+	
+	private boolean marketSurplusGraphEnabled, marketEfficiencyGraphEnabled;
     
     /** Creates a new instance of SimSpecs */
     public SimSpecs() 
@@ -28,6 +30,8 @@ public class SimSpecs {
         marketSpecs = null;
         tradingMarketSeeds = null;
         numRounds = -1;
+        marketSurplusGraphEnabled = true;
+        marketEfficiencyGraphEnabled = true;
     }
 
     public void addAgentSpecs( ArrayList<AgentSpecs> agentList ) 
@@ -108,5 +112,26 @@ public class SimSpecs {
 	{
 		this.numRounds = numRounds;
 	}
+
+	public boolean isMarketSurplusGraphEnabled()
+	{
+		return marketSurplusGraphEnabled;
+	}
+
+	public void setMarketSurplusGraphEnabled(boolean marketSurplusGraphEnabled)
+	{
+		this.marketSurplusGraphEnabled = marketSurplusGraphEnabled;
+	}
+
+	public boolean isMarketEfficiencyGraphEnabled()
+	{
+		return marketEfficiencyGraphEnabled;
+	}
+
+	public void setMarketEfficiencyGraphEnabled(boolean marketEfficiencyGraphEnabled)
+	{
+		this.marketEfficiencyGraphEnabled = marketEfficiencyGraphEnabled;
+	}
+
     
 }
