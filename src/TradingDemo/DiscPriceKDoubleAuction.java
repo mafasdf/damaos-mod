@@ -84,9 +84,14 @@ public class DiscPriceKDoubleAuction implements MarketStyle {
                     // Update the statistics (stats is a Stat object)
                     stats.AddDatuum(transactionPrice);
                     stats.AddMarkSurp(buyers[buyerIndex].getValue() - sellers[sellerIndex].getValue());
-//TODO: SetIndividualBuyerActSurp...
-                    stats.AddBuyerActSurp( buyers[ buyerIndex ].getValue() - transactionPrice );
-                    stats.AddSellerActSurp( transactionPrice - sellers[sellerIndex].getValue() );
+
+                    float buyerSurplus = buyers[ buyerIndex ].getValue() - transactionPrice;
+                    stats.AddBuyerActSurp(buyerSurplus);
+                    stats.setIndividualBuyerMarketSurplus(buyerIndex, buyerSurplus);
+                    
+                    float sellerSurplus = transactionPrice - sellers[sellerIndex].getValue();
+                    stats.AddSellerActSurp( sellerSurplus);
+                    stats.setIndividualSellerMarketSurplus(sellerIndex, sellerSurplus);
                     
                     if (verboseOutput) 
                     {
