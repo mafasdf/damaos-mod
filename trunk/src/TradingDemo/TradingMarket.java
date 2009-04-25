@@ -18,7 +18,8 @@ import java.text.DecimalFormat;
 public class TradingMarket
 {
     float bidPrice, askPrice, transactionPrice;
-    DecimalFormat twoDigits = new DecimalFormat( "0.00" );
+    private static final DecimalFormat TWO_DIGITS = new DecimalFormat( "0.00" );
+    private static final DecimalFormat THREE_DIGITS = new DecimalFormat( "0.000" );
     
     // Number of trading trails in one trading round for Discrimatory-Price K double auction
     public static int maxNumberOfTrades = -1;        // default setting for Number of Trading trails        
@@ -232,7 +233,7 @@ public class TradingMarket
     public void trade()
     {
         round++;
-        stats = new Stat();                                      // creates the instance of Stat to store and process data
+        stats = new Stat(buyers.length, sellers.length);                                      // creates the instance of Stat to store and process data
         stats = MS.Trade( stats, buyers, sellers, verboseOutput  );
         stats.SetMaxNetSurp( maxMarketSurplus );                 // sets the maximum Market Surplus that could be achived under this market structure and agents setting
         
@@ -249,16 +250,50 @@ public class TradingMarket
         // System.out is redirected to the output file in the TradingWorld class
         System.out.println( (round )+  "," 
                         + stats.GetNumTrans() + ","
-                        + twoDigits.format(stats.GetAverage()) + "," 
-                        + twoDigits.format(marketsurplus) + "," 
-                        + twoDigits.format( stats.GetMarketEfficiency() ) + ","  
-                        + twoDigits.format(stats.GetStdDev()) + "," 
-                        + twoDigits.format(stats.getBuyerActualSurplus()) + ","
-                        + twoDigits.format(stats.getSellerActualSurplus()) );
+                        + TWO_DIGITS.format(stats.GetAverage()) + "," 
+                        + TWO_DIGITS.format(marketsurplus) + "," 
+                        + THREE_DIGITS.format( stats.GetMarketEfficiency() ) + ","  
+                        + TWO_DIGITS.format(stats.GetStdDev()) + "," 
+                        + TWO_DIGITS.format(stats.getBuyerActualSurplus()) + ","
+                        + TWO_DIGITS.format(stats.getSellerActualSurplus()) + ","
+                        + "BuyerAdvantages:" + formatNumberArray(calculateAdvantages(stats.getIndividualBuyersMarketSurplus(), buyerCMCSurplus, maxMarketSurplus)) + ","
+                        + "SellerAdvantages:" + formatNumberArray(calculateAdvantages(stats.getIndividualSellersMarketSurplus(), sellerCMCSurplus, maxMarketSurplus))
+        );
         
     }
-   
-    public int getN(){
+
+
+	private String formatNumberArray(float[] numbers)
+	{
+		StringBuilder toReturn = new StringBuilder(numbers.length * 4);
+		
+		for(int i=0; i < numbers.length; i++)
+		{
+			if(i!=0)
+				toReturn.append(" ");
+			toReturn.append(THREE_DIGITS.format(numbers[i]));
+		}
+		
+		return toReturn.toString();
+	}
+
+
+	private float[] calculateAdvantages(float[] individualMarketSurpluses, float[] idealSurpluses, float maxSurplus)
+	{
+		if(individualMarketSurpluses.length != buyerCMCSurplus.length)
+			throw new IllegalArgumentException("Mismatching array sizes");
+		
+		float[] advantages = new float[buyerCMCSurplus.length];
+		for(int i=0; i < advantages.length; i++)
+		{
+			advantages[i] = (individualMarketSurpluses[i]-idealSurpluses[i]) / maxSurplus;
+		}
+		
+		return advantages;
+	}
+
+
+	public int getN(){
         return total_number;
     }
     

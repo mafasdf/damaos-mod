@@ -94,7 +94,7 @@ public class TradingWorld extends SimpleModel
 			if(simSpec.getMarketSpecs().marketQuantity == i + 1)
 			{
 				System.out.println("\nTrade Round,Number of Transactions,Average Price,Market Surplus,Market Efficiency,"
-						+ "Standard Deviation,Buyer Market Surplus,Seller Market Surplus");
+						+ "Standard Deviation,Buyer Market Surplus,Seller Market Surplus,Buyer Market Advantages,Seller Market Advantages");
 			}
 		}
 		
