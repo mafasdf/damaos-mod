@@ -35,6 +35,7 @@ public class TradingMarket
     int numMarkets;
     MarketStyle MS;
     Stat stats;
+    boolean conciseOutputMode;
     
     public float[] buyerCMCSurplus;     // surplus that each buyer is going to get under the base case
     public float[] sellerCMCSurplus;    // surplus that each seller is going to get under the base case
@@ -246,6 +247,13 @@ public class TradingMarket
         actBuyerSurplus = stats.getBuyerActualSurplus();    
         actSellerSurplus = stats.getSellerActualSurplus();
         
+        
+        if(conciseOutputMode)
+        {
+        	//TODO
+        }
+        else
+        {
         // Output to comma separated file
         // System.out is redirected to the output file in the TradingWorld class
         System.out.println( (round )+  "," 
@@ -259,7 +267,7 @@ public class TradingMarket
                         + "BuyerAdvantages:" + formatNumberArray(calculateAdvantages(stats.getIndividualBuyersMarketSurplus(), buyerCMCSurplus, maxMarketSurplus)) + ","
                         + "SellerAdvantages:" + formatNumberArray(calculateAdvantages(stats.getIndividualSellersMarketSurplus(), sellerCMCSurplus, maxMarketSurplus))
         );
-        
+        }
     }
 
 
@@ -280,10 +288,10 @@ public class TradingMarket
 
 	private float[] calculateAdvantages(float[] individualMarketSurpluses, float[] idealSurpluses, float maxSurplus)
 	{
-		if(individualMarketSurpluses.length != buyerCMCSurplus.length)
+		if(individualMarketSurpluses.length != idealSurpluses.length)
 			throw new IllegalArgumentException("Mismatching array sizes");
 		
-		float[] advantages = new float[buyerCMCSurplus.length];
+		float[] advantages = new float[idealSurpluses.length];
 		for(int i=0; i < advantages.length; i++)
 		{
 			advantages[i] = (individualMarketSurpluses[i]-idealSurpluses[i]) / maxSurplus;
