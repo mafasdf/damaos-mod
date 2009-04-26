@@ -42,10 +42,10 @@ public class Heatmap
 			{
 				for(int i = 0; i < x; i++)
 				{
-					Thread t = new Thread(new ReadingJob(averages, stdDeviations, i, j, k, prefix));
-					t.start();
-					threads.add(t);
-//					(new ReadingJob(averages, stdDeviations, i, j, k, prefix)).run();
+//					Thread t = new Thread(new ReadingJob(averages, stdDeviations, i, j, k, prefix));
+//					t.start();
+//					threads.add(t);
+					(new ReadingJob(averages, stdDeviations, i, j, k, prefix)).run();
 				}
 			}
 		}
@@ -90,25 +90,30 @@ public class Heatmap
 			}
 			catch(FileNotFoundException e)
 			{
-				throw new RuntimeException("Couldn't open file: " + fileName, e);
+				System.out.println("could not open "+ fileName);
+				averages[zPoint][yPoint][xPoint] = stdDeviations[zPoint][yPoint][xPoint] = Float.NaN;
+				return;
 			}
-			
-			int numMarkets = parseNumberOfMarkets(fileIn);
 			
 			//find line with key
 			String input = null;
 			while(fileIn.hasNextLine())
 			{
 				input = fileIn.nextLine();
-				if(input.contains("Primary Seller Profits")) break;
+				if(input.contains("Primary Seller Profit")) break;
 			}
 			
 			StandardDeviation sd = new StandardDeviation();
 			Mean average = new Mean();
+			boolean complete = false;
 			while(fileIn.hasNextLine())
 			{
 				input = fileIn.nextLine();
-				if(input.equals("Batch Done")) break;
+				if(input.contains("Batch Done")) 
+				{
+					complete = true;
+					break;
+				}
 
 
 				float profit = Float.parseFloat(input);
@@ -117,32 +122,28 @@ public class Heatmap
 				average.increment(profit);
 			}
 			
-			averages[zPoint][yPoint][xPoint] = (float) average.getResult();
-			stdDeviations[zPoint][yPoint][xPoint] = (float) sd.getResult();
+			if(complete)
+			{
+				averages[zPoint][yPoint][xPoint] = (float) average.getResult();
+				stdDeviations[zPoint][yPoint][xPoint] = (float) sd.getResult();	
+			}
+			else
+			{
+				System.out.println(fileName + " is missing info");
+				averages[zPoint][yPoint][xPoint] = stdDeviations[zPoint][yPoint][xPoint] = Float.NaN;
+			}
+
+			fileIn.close();
 		}
-	}
-	
-	private static int parseNumberOfMarkets(Scanner fileIn)
-	{
-		//find line with key
-		String input = null;
-		while(fileIn.hasNextLine())
-		{
-			input = fileIn.nextLine();
-			if(input.contains("Number of Markets")) break;
-		}
-		
-		List<String> keysList = java.util.Arrays.asList(input.split(","));
-		for(int i = 0; i < keysList.size(); i++)
-			keysList.set(i, keysList.get(i).trim());
-		
-		return Integer.parseInt(fileIn.nextLine().split(",")[keysList.indexOf("Number of Markets")]);//why be readable when you can be concise!
 	}
 	
 	private static void render(String prefix, String type, float[][][] data)
 	{
 		float min = min(data);
 		float max= max(data);
+		
+		System.out.println(type + " max: " + max);
+		System.out.println(type + " min: " + min);
 		
 		for(int z=0;z<data.length;z++)
 		{
@@ -157,7 +158,7 @@ public class Heatmap
 		for(int z=0;z<data.length;z++)
 			for(int y=0;y<data[z].length;y++)
 				for(int x=0;x<data[z][y].length;x++)
-					if (data[z][y][x] > max)
+					if (!Float.isNaN(data[z][y][x]) && data[z][y][x] > max)
 						max = data[z][y][x];
 		return max;
 	}
@@ -168,7 +169,7 @@ public class Heatmap
 		for(int z=0;z<data.length;z++)
 			for(int y=0;y<data[z].length;y++)
 				for(int x=0;x<data[z][y].length;x++)
-					if (data[z][y][x] < min)
+					if (!Float.isNaN(data[z][y][x]) && data[z][y][x] < min)
 						min = data[z][y][x];
 		return min;
 	}
@@ -180,17 +181,26 @@ public class Heatmap
 		{
 			for(int x=0; x < data[0].length; x++)
 			{
+				if(Float.isNaN(data[y][x]))
+				{
+					outputImage.setRGB(x,y,0);
+					continue;
+				}
+				
 				//normalize data point
-				float normalized = data[y][x] - min;
-				normalized /= (max - min); 
+				float normalized = data[y][x]/ max; 
 				//convert to RGB and set
-				Color color = Color.getHSBColor(normalized * 100, 1.0f, 1.0f);
+				Color color = Color.getHSBColor(normalized * 0.65f, 1.0f, 1.0f);
+				int r = color.getRed();
+				int g = color.getGreen();
+				int b = color.getBlue();
 				outputImage.setRGB(x,y,color.getRGB());
 			}
 		}
 		
 		String fileName = String.format("%s-%s_%d.png", prefix, type, z);
 		File outputFile = new File(fileName);
+		System.out.println("Writing to " + fileName);
 		try
 		{
 			ImageIO.write(outputImage, "PNG", outputFile);
