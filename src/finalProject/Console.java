@@ -18,7 +18,7 @@ public class Console
 		int y = Integer.parseInt(args[2]);
 		int z = Integer.parseInt(args[3]);
 		
-		float initialPropensity = z * 20;
+		float initialPropensity = (z+1) * 20;
 		float recency = x / 40.0f;
 		float experimentation = y / 40.0f;
 		String fileName = String.format("%s_%d_%d_%d_.txt", prefix, x, y, z);
@@ -30,14 +30,15 @@ public class Console
 		specs.addAgentSpecs(new AgentSpecs(AgentType.BUYER.toString(), "ZI", 5, 0, null, 14, new ActionDomainParameters(10, 100, 100)));
 		specs.addMarketSpecs(new MarketSpecs(777, //random seed
 				"DiscriminatoryPriceKDoubleAuction",//market type
-				5, //
+				100, //
 				fileName, 50, 0.5f, //disable histograms
 				new HistogramParameters[] {new HistogramParameters(false, 0, 0, 0.0f, '\0'), new HistogramParameters(false, 0, 0, 0.0f, '\0'),
 						new HistogramParameters(false, 0, 0, 0.0f, '\0'), new HistogramParameters(false, 0, 0, 0.0f, '\0'),}));
-		specs.setNumRounds(100);
+		specs.setNumRounds(120);
 		//disable additional graphs to completely disable GUI
 		specs.setMarketSurplusGraphEnabled(false);
 		specs.setMarketEfficiencyGraphEnabled(false);
+		specs.setConciseMode(true);
 		
 		TradingWorld trader = new TradingWorld(specs);
 		

@@ -20,7 +20,6 @@ import sun.nio.cs.Surrogate;
 
 public class Heatmap
 {
-	private static final int PRIMARY_SELLER_INDEX = 0;
 	
 	/**
 	 * @param args
@@ -83,7 +82,7 @@ public class Heatmap
 		public void run()
 		{
 			//open file
-			String fileName = String.format("%s_%d_%d_%d_.txt", prefix, xPoint, yPoint, zPoint+1);//TODO
+			String fileName = String.format("%s_%d_%d_%d_.txt", prefix, xPoint, yPoint, zPoint);
 			Scanner fileIn;
 			try
 			{
@@ -101,44 +100,21 @@ public class Heatmap
 			while(fileIn.hasNextLine())
 			{
 				input = fileIn.nextLine();
-				if(input.contains("Trade Round")) break;
+				if(input.contains("Primary Seller Profits")) break;
 			}
 			
-			String[] keys = input.split(",");
-			for(int i = 0; i < keys.length; i++)
-				keys[i] = keys[i].trim();
-			
-			List<String> keysList = java.util.Arrays.asList(keys);
-			int sellerAdvantagesColIndex = keysList.indexOf("Seller Market Advantages");
-			int roundColIndex = keysList.indexOf("Trade Round");
-			
-			int previousRound = 1;
 			StandardDeviation sd = new StandardDeviation();
 			Mean average = new Mean();
-			//go through each round, resetting between rounds (to ensure we get the average of the last round)
 			while(fileIn.hasNextLine())
 			{
 				input = fileIn.nextLine();
 				if(input.equals("Batch Done")) break;
+
+
+				float profit = Float.parseFloat(input);
 				
-				String[] csValues = input.split(",");
-				int currentRound = Integer.parseInt(csValues[roundColIndex]);
-				if(currentRound != previousRound)
-				{
-					//reset stats
-					sd.clear();
-					average.clear();
-				}
-				
-				String advantages = csValues[sellerAdvantagesColIndex];
-				advantages = advantages.replace("SellerAdvantages:", "");
-				String[] advantagesArr = advantages.split(" ");
-				float individualAdvantage = Float.parseFloat(advantagesArr[PRIMARY_SELLER_INDEX]);
-				
-				sd.increment(individualAdvantage);
-				average.increment(individualAdvantage);
-				
-				previousRound = currentRound;
+				sd.increment(profit);
+				average.increment(profit);
 			}
 			
 			averages[zPoint][yPoint][xPoint] = (float) average.getResult();

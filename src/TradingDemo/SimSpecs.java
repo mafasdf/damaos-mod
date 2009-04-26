@@ -22,6 +22,7 @@ public class SimSpecs {
 	private int numRounds;
 	
 	private boolean marketSurplusGraphEnabled, marketEfficiencyGraphEnabled;
+	private boolean conciseMode;
     
     /** Creates a new instance of SimSpecs */
     public SimSpecs() 
@@ -131,6 +132,16 @@ public class SimSpecs {
 	public void setMarketEfficiencyGraphEnabled(boolean marketEfficiencyGraphEnabled)
 	{
 		this.marketEfficiencyGraphEnabled = marketEfficiencyGraphEnabled;
+	}
+
+	public boolean isConciseMode()
+	{
+		return conciseMode;
+	}
+	
+	public void setConciseMode(boolean conciseMode)
+	{
+		this.conciseMode = conciseMode;
 	}
 
     

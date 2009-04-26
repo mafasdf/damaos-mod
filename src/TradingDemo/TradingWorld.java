@@ -90,12 +90,16 @@ public class TradingWorld extends SimpleModel
 		for(int i = 0; i < simSpec.getMarketSpecs().marketQuantity; i++)
 		{
 			agentList.add(new TradingMarket(simSpec));
-			// after the last TradingMarket is added, 
-			if(simSpec.getMarketSpecs().marketQuantity == i + 1)
-			{
-				System.out.println("\nTrade Round,Number of Transactions,Average Price,Market Surplus,Market Efficiency,"
-						+ "Standard Deviation,Buyer Market Surplus,Seller Market Surplus,Buyer Market Advantages,Seller Market Advantages");
-			}
+		}
+		
+		if(simSpec.isConciseMode())
+		{
+			System.out.println("\nPrimary Seller Profit");
+		}
+		else
+		{
+			System.out.println("\nTrade Round,Number of Transactions,Average Price,Market Surplus,Market Efficiency,"
+				+ "Standard Deviation,Buyer Market Surplus,Seller Market Surplus,Buyer Market Advantages,Seller Market Advantages");
 		}
 		
 		HistogramParameters[] hist = simSpec.getMarketSpecs().histParams;

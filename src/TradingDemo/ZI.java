@@ -48,7 +48,7 @@ public class ZI implements TradingStyle
         if( type == AgentType.BUYER )
         {
             //return (float) (random.next() * reservationValue); 
-            return (float) (reservationValue/100) * ((myAdp.getUpperBound() 
+            return (reservationValue/100) * ((myAdp.getUpperBound() 
             - myAdp.getLowerBound())*random.next() + myAdp.getLowerBound());
         }
         else
@@ -72,7 +72,7 @@ public class ZI implements TradingStyle
         if( type == AgentType.SELLER )
         {
             //return (float) ( reservationValue + (maxSellerValue - reservationValue)*random.next() );
-            return (float) reservationValue + (reservationValue * (myAdp.getLowerBound() 
+            return reservationValue + (reservationValue * (myAdp.getLowerBound() 
             + random.next() * (myAdp.getUpperBound() - myAdp.getLowerBound() ))) /100;
         }
         else
