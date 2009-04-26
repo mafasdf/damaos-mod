@@ -31,7 +31,8 @@ public class TradingMarket
     private float marketEfficiency = -1;
     public float maxMarketSurplus = (float)0;       // Maximum Market surplus that can be extracted from under uniform pricing market
     
-    int round = 0;
+    DayCounter dayCounter = new DayCounter();
+    int maxRoundNumber;
     int numMarkets;
     MarketStyle MS;
     Stat stats;
@@ -43,6 +44,8 @@ public class TradingMarket
     float sellerCMCSurplusSum = 0;      // surplus of seller group under the base case
     float actBuyerSurplus = 0;          // Actural buyer surplus
     float actSellerSurplus = 0;         // Actural seller surplus
+    float[] buyerTotalProfits; 			// accumulated surplus for sellers
+    float[] sellerTotalProfits;			// accumulated surplus for buyers
     
     BuyerAgent buyers[];
     ArrayList<BuyerAgent> buyerList = new ArrayList<BuyerAgent>();
@@ -62,6 +65,9 @@ public class TradingMarket
     {
         marketID = ID_Number;
         ID_Number ++;
+        maxRoundNumber = simSpec.getNumRounds();
+        conciseOutputMode = simSpec.isConciseMode();
+        
         
         myTradingAgentSeed = simSpec.getTradingMarketSeed( marketID );
         
@@ -101,6 +107,9 @@ public class TradingMarket
             } 
         }
 
+        buyerTotalProfits = new float[buyerList.size()];
+        sellerTotalProfits = new float[sellerList.size()];
+        
         float buyerReserve[] = new float[ buyerList.size() ];
         
         for( int j = 0; j < buyerList.size() ; j++ )
@@ -233,7 +242,6 @@ public class TradingMarket
     
     public void trade()
     {
-        round++;
         stats = new Stat(buyers.length, sellers.length);                                      // creates the instance of Stat to store and process data
         stats = MS.Trade( stats, buyers, sellers, verboseOutput  );
         stats.SetMaxNetSurp( maxMarketSurplus );                 // sets the maximum Market Surplus that could be achived under this market structure and agents setting
@@ -246,17 +254,23 @@ public class TradingMarket
         stats.SetMarkEff( marketEfficiency );
         actBuyerSurplus = stats.getBuyerActualSurplus();    
         actSellerSurplus = stats.getSellerActualSurplus();
+        //add to accumulated profits
+        addToArray(buyerTotalProfits, stats.getIndividualBuyersMarketSurplus());
+        addToArray(sellerTotalProfits, stats.getIndividualSellersMarketSurplus());
         
         
         if(conciseOutputMode)
         {
-        	//TODO
+        	if(dayCounter.getValue() == maxRoundNumber)
+        	{
+        		System.out.println(sellerTotalProfits[0]);//this assumes we have at least one seller 
+        	}
         }
         else
         {
         // Output to comma separated file
         // System.out is redirected to the output file in the TradingWorld class
-        System.out.println( (round )+  "," 
+        System.out.println( dayCounter.getValue()+  "," 
                         + stats.GetNumTrans() + ","
                         + TWO_DIGITS.format(stats.GetAverage()) + "," 
                         + TWO_DIGITS.format(marketsurplus) + "," 
@@ -268,7 +282,18 @@ public class TradingMarket
                         + "SellerAdvantages:" + formatNumberArray(calculateAdvantages(stats.getIndividualSellersMarketSurplus(), sellerCMCSurplus, maxMarketSurplus))
         );
         }
+        
+        dayCounter.increment();
     }
+
+
+	private void addToArray(float[] toAddTo, float[] terms)
+	{
+		if(toAddTo.length != terms.length)
+			throw new IllegalArgumentException("Array size mismatch");
+		for(int i = 0; i < toAddTo.length; i++)
+			toAddTo[i] += terms[i];
+	}
 
 
 	private String formatNumberArray(float[] numbers)
@@ -370,6 +395,10 @@ public class TradingMarket
         {
             tradingStyle = new ZI( value, ac.actionDomainParameters, tsSeed, AgentType.BUYER );
         }
+        else if( tradeStyleName.equalsIgnoreCase("ChangingZI") )
+        {
+            tradingStyle = new ChangingZI( value, ac.actionDomainParameters, ac.actionDomainSecondaryParameters, tsSeed, AgentType.BUYER, dayCounter, ac.changeDay);
+        }
         else if( tradeStyleName.equalsIgnoreCase("ModifiedRothErev") )
         {
             lsp = ac.learningStyleParameters;
@@ -408,6 +437,10 @@ public class TradingMarket
         else if( tradeStyleName.equalsIgnoreCase("ZI") )
         {
             tradingStyle = new ZI( value, ac.actionDomainParameters, tsSeed, AgentType.SELLER );
+        }
+        else if( tradeStyleName.equalsIgnoreCase("ChangingZI") )
+        {
+            tradingStyle = new ChangingZI( value, ac.actionDomainParameters, ac.actionDomainSecondaryParameters, tsSeed, AgentType.SELLER, dayCounter, ac.changeDay);
         }
         else if( tradeStyleName.equalsIgnoreCase("ModifiedRothErev") )
         {

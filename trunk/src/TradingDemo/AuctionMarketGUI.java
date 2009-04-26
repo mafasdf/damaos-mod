@@ -1327,7 +1327,7 @@ public class AuctionMarketGUI extends javax.swing.JFrame {
                 + "  MaxResPrice:" + maxRes + "  LSP:" + lsp + "  DomainSize:" + actionDomain.getDomainSize() + "  LowerBound:" 
                 + actionDomain.getLowerBound() + "  UpperBound:" + actionDomain.getUpperBound() + "\n"; 
         
-        simSpecs.addAgentSpecs( new AgentSpecs( at.toString(), learningStyle, numberOfAgents, maxRes, lsp, resPrice, actionDomain ) );
+        simSpecs.addAgentSpecs( new AgentSpecs( at.toString(), learningStyle, numberOfAgents, maxRes, lsp, resPrice, actionDomain) );
         
         listModel.addElement(existingAgents);
         ExistingAgentsList.setModel(listModel);
