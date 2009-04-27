@@ -94,7 +94,11 @@ public class ModRothErev implements TradingStyle
                 {
                     propensity[i] = ( (1 - phi) * propensity[i] ) + ( (propensity[i]*epsilon)/(domainSize-1) );
                 }
-            }       
+                
+                //protection against dividing by zero:
+                if(propensity[i] == 0.0f)
+                	propensity[i] = Float.MIN_VALUE;
+            }
         } 
     }
         
@@ -102,7 +106,12 @@ public class ModRothErev implements TradingStyle
     // select an action. The action itself is returned, NOT just the index of the action
     public float pickAction()
     {
-        int actionIndex = -1;
+    	return actionDomain[ pickActionIndex() ];
+    }
+    
+    public int pickActionIndex()
+    {
+    	int actionIndex = -1;
         float randNum =(float) random.next(); // Generate a random number
         propensityToProbability();
         calcAccumProp();
@@ -117,10 +126,9 @@ public class ModRothErev implements TradingStyle
                 break;
             }
         }
-        
         indexOfLastAction = actionIndex;
-        return actionDomain[ actionIndex ];
-   }
+        return actionIndex;
+    }
     
     // Calculates the probability array based on the propensity values
     public void propensityToProbability()
