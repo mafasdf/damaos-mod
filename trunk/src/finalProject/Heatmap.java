@@ -190,7 +190,7 @@ public class Heatmap
 				//normalize data point
 				float normalized = data[y][x]/ max; 
 				//convert to RGB and set
-				Color color = Color.getHSBColor(normalized * 0.65f, 1.0f, 1.0f);
+				Color color = Color.getHSBColor(normalized * 2.0f/3.0f, 1.0f, 1.0f);//2/3rds==true blue
 				int r = color.getRed();
 				int g = color.getGreen();
 				int b = color.getBlue();
