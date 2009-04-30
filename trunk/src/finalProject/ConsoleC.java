@@ -1,11 +1,16 @@
 package finalProject;
 
-import java.util.ArrayList;
-
 import uchicago.src.sim.engine.SimInit;
-import TradingDemo.*;
+import TradingDemo.ActionDomainParameters;
+import TradingDemo.AgentSpecs;
+import TradingDemo.AgentType;
+import TradingDemo.HistogramParameters;
+import TradingDemo.MarketSpecs;
+import TradingDemo.ModRothErevParams;
+import TradingDemo.SimSpecs;
+import TradingDemo.TradingWorld;
 
-public class Console
+public class ConsoleC
 {
 	
 	/**
@@ -16,38 +21,32 @@ public class Console
 		String prefix = args[0];
 		int x = Integer.parseInt(args[1]);
 		int y = Integer.parseInt(args[2]);
-		int z = Integer.parseInt(args[3]);//just used in filename
+		int z = Integer.parseInt(args[3]);
 		
-		float topInitialPropensity = Float.parseFloat(args[4]);
-		int choiceWidth = Integer.parseInt(args[5]);
-		int daysBetweenChange = Integer.parseInt(args[6]);
-		float minRecency = Float.parseFloat(args[7]);
-		float maxRecency = Float.parseFloat(args[8]);
-		float minExp = Float.parseFloat(args[9]);
-		float maxExp = Float.parseFloat(args[10]);
-
-		float recency = x / 16.0f;//top
-		float experimentation = y / 16.0f;//top
-		float bottomInitialPropensity = 100;
-		
+		float initialPropensity;
+		switch(z)
+		{
+			case 0: initialPropensity = 1.0f;break;
+			case 1: initialPropensity = 10.0f;break;
+			case 2: initialPropensity = 20.0f;break;
+			case 3: initialPropensity = 40.0f;break;
+			case 4: initialPropensity = 60.0f;break;
+			case 5: initialPropensity = 100.0f;break;
+			default: throw new IllegalArgumentException("Bad z");
+		}
+		float recency = x / 16.0f;
+		float experimentation = y / 16.0f;
 		String fileName = String.format("%s_%d_%d_%d_.txt", prefix, x, y, z);
 		
 		HistogramParameters[] fourDisabledHistograms = new HistogramParameters[4];
 		java.util.Arrays.fill(fourDisabledHistograms, new HistogramParameters(false, 0, 0, 0.0f, '\0'));
 		
 		SimSpecs specs = new SimSpecs();
-		specs.addAgentSpecs(new AgentSpecs(AgentType.SELLER.toString(), "TwoLayerModRothErev", 1, //only one learner
+		specs.addAgentSpecs(new AgentSpecs(AgentType.SELLER.toString(), "ModifiedRothErev", 1, //only one learner
 				0, //max not used
-				new MultiLayerMREParams(
-							new ModRothErevParams( topInitialPropensity, experimentation, recency),
-							new ModRothErevParams( bottomInitialPropensity, Float.NaN, Float.NaN)
-						),
+				new ModRothErevParams(initialPropensity, experimentation, recency),//from args
 				50, //reserve price
-				new ActionDomainParameters(6, 0, 200),//divide region [$50, $150] into 6 choices
-				new ActionDomainParameters(choiceWidth, minRecency, maxRecency),//both recency and exp have same number of choices
-				new ActionDomainParameters(choiceWidth, minExp, maxExp),//both recency and exp have same number of choices
-				daysBetweenChange//from args
-		));
+				new ActionDomainParameters(6, 0, 200)));//divide region [$50, $150] into 6 choices
 		
 		specs.addAgentSpecs(new AgentSpecs(AgentType.SELLER.toString(), "ZI", 4, //number of ZI sellers
 				0, //not used
@@ -56,8 +55,7 @@ public class Console
 				new ActionDomainParameters(0, 0, 20)));//range: [$50, $60]
 
 		
-		specs.addAgentSpecs(new AgentSpecs(AgentType.BUYER.toString(), "ChangingZI", 5,0,null,100,new ActionDomainParameters(10, 90, 100)
-		,new ActionDomainParameters(10, 70,80), 1250));//lower bids at day 1250
+		specs.addAgentSpecs(new AgentSpecs(AgentType.BUYER.toString(), "ZI", 5,0,null,100,new ActionDomainParameters(10, 70, 80)));
 		
 		
 		
