@@ -384,12 +384,10 @@ public class TradingMarket
      
         int buyerSeed = BuyerAgentSeedGen.getRangedInt( 0, Integer.MAX_VALUE );      
         int tsSeed = BuyerAgentSeedGen.getRangedInt( 0, Integer.MAX_VALUE );
-        LearningStyleParameters lsp = null;
         
         if( tradeStyleName.equalsIgnoreCase("Constant") )
         {
-            lsp = ac.learningStyleParameters;
-            tradingStyle = new Constant( value, (ConstantLSParams) lsp, AgentType.BUYER );
+            tradingStyle = new Constant( value, (ConstantLSParams) ac.learningStyleParameters, AgentType.BUYER );
         }
         else if( tradeStyleName.equalsIgnoreCase("ZI") )
         {
@@ -401,8 +399,11 @@ public class TradingMarket
         }
         else if( tradeStyleName.equalsIgnoreCase("ModifiedRothErev") )
         {
-            lsp = ac.learningStyleParameters;
-            tradingStyle = new ModRothErev( value, ac.actionDomainParameters, tsSeed, (ModRothErevParams) lsp, AgentType.BUYER );
+            tradingStyle = new ModRothErev( value, ac.actionDomainParameters, tsSeed, (ModRothErevParams) ac.learningStyleParameters, AgentType.BUYER );
+        }
+        else if( tradeStyleName.equalsIgnoreCase("TwoLayerModRothErev") )
+        {
+        	tradingStyle = new TwoLayerModRothErev(value, ac.actionDomainParameters, tsSeed, (MultiLayerMREParams) ac.learningStyleParameters, AgentType.BUYER, ac.recencyDomainParameters, ac.experimentationDomainParameters, ac.daysBetweenChanges, dayCounter);
         }
         else if( tradeStyleName.equalsIgnoreCase("SimpleBeliefBased") )
         {
@@ -427,12 +428,10 @@ public class TradingMarket
         int sellerSeed = SellerAgentSeedGen.getRangedInt( 0, Integer.MAX_VALUE );      
         int tsSeed = SellerAgentSeedGen.getRangedInt( 0, Integer.MAX_VALUE );
          
-        LearningStyleParameters  lsp = null;
-        
+       
         if( tradeStyleName.equalsIgnoreCase("Constant") )
         {
-            lsp = ac.learningStyleParameters;
-            tradingStyle = new Constant( value, (ConstantLSParams) lsp, AgentType.SELLER );
+            tradingStyle = new Constant( value, (ConstantLSParams) ac.learningStyleParameters, AgentType.SELLER );
         }
         else if( tradeStyleName.equalsIgnoreCase("ZI") )
         {
@@ -444,8 +443,11 @@ public class TradingMarket
         }
         else if( tradeStyleName.equalsIgnoreCase("ModifiedRothErev") )
         {
-            lsp = ac.learningStyleParameters;
-            tradingStyle = new ModRothErev( value, ac.actionDomainParameters, tsSeed, (ModRothErevParams) lsp, AgentType.SELLER );
+            tradingStyle = new ModRothErev( value, ac.actionDomainParameters, tsSeed, (ModRothErevParams) ac.learningStyleParameters, AgentType.SELLER );
+        }
+        else if( tradeStyleName.equalsIgnoreCase("TwoLayerModRothErev") )
+        {
+        	tradingStyle = new TwoLayerModRothErev(value, ac.actionDomainParameters, tsSeed, (MultiLayerMREParams) ac.learningStyleParameters, AgentType.SELLER, ac.recencyDomainParameters, ac.experimentationDomainParameters, ac.daysBetweenChanges, dayCounter);
         }
         else if( tradeStyleName.equalsIgnoreCase("SimpleBeliefBased") )
         {

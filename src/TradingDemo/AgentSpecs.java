@@ -19,8 +19,16 @@ public class AgentSpecs
 	float maxSellerPriceOrBuyerCost;
 	LearningStyleParameters learningStyleParameters;
 	ActionDomainParameters actionDomainParameters;
+	
+	//for changing ZI
 	ActionDomainParameters actionDomainSecondaryParameters;
 	public int changeDay = -1;
+	
+	//for 2-layer MRE
+	ActionDomainParameters recencyDomainParameters;
+	ActionDomainParameters experimentationDomainParameters;
+	int daysBetweenChanges = -1;
+	
 	
 	public AgentSpecs(String agentType, String tradeStyleType, int quantity, float maxBuySellPOrBuyerC, LearningStyleParameters lsp,
 			float reservationPrice, ActionDomainParameters actDomParams)
@@ -46,6 +54,18 @@ public class AgentSpecs
 		this(agentType, tradeStyleType, quantity, maxBuySellPOrBuyerC, lsp, reservationPrice, actDomParams);
 		actionDomainSecondaryParameters = secondaryADP;
 		changeDay = dayToChange;
+	}
+	
+	/**
+	 * For 2-layer MRE
+	 */
+	public AgentSpecs(String agentType, String tradeStyleType, int quantity, float maxBuySellPOrBuyerC, LearningStyleParameters lsp,
+			float reservationPrice, ActionDomainParameters actDomParams, ActionDomainParameters recencyDomain, ActionDomainParameters experimentationDomain, int daysBetweenChanges)
+	{
+		this(agentType, tradeStyleType, quantity, maxBuySellPOrBuyerC, lsp, reservationPrice, actDomParams);
+		recencyDomainParameters = recencyDomain;
+		experimentationDomainParameters = experimentationDomain;
+		this.daysBetweenChanges = daysBetweenChanges;
 	}
 	
 	/*
