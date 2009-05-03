@@ -21,12 +21,24 @@ public class ConsoleC
 		String prefix = args[0];
 		int x = Integer.parseInt(args[1]);
 		int y = Integer.parseInt(args[2]);
-//		int z = Integer.parseInt(args[3]);
+		int z = Integer.parseInt(args[3]);
 		
-		float initialPropensity = 100;
+		float initialPropensity;
+		switch(z)
+		{
+			case 0: initialPropensity = 1.0f;break;
+			case 1: initialPropensity = 10.0f;break;
+			case 2: initialPropensity = 20.0f;break;
+			case 3: initialPropensity = 40.0f;break;
+			case 4: initialPropensity = 60.0f;break;
+			case 5: initialPropensity = 100.0f;break;
+			default: throw new IllegalArgumentException("Bad z");
+		}
+		
+		
 		float recency = x / 16.0f;
 		float experimentation = y / 16.0f;
-		String fileName = String.format("%s_%d_%d_%d_.txt", prefix, x, y, 0);
+		String fileName = String.format("%s_%d_%d_%d_.txt", prefix, x, y, z);
 		
 		HistogramParameters[] fourDisabledHistograms = new HistogramParameters[4];
 		java.util.Arrays.fill(fourDisabledHistograms, new HistogramParameters(false, 0, 0, 0.0f, '\0'));
