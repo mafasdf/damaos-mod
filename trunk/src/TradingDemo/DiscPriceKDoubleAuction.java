@@ -54,7 +54,7 @@ public class DiscPriceKDoubleAuction implements MarketStyle
 		int numTrades = 0;
 		for(int counter = 1; counter < maxNumberOfTrades; counter++)
 		{
-			if(numTrades == numPossibleTrades) break;//nothing more to do
+			if(numTrades == maxNumberOfTrades) break;//nothing more to do
 				
 			bidPrice = 0;
 			askPrice = 0;
